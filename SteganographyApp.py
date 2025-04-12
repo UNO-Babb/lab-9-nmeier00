@@ -97,29 +97,68 @@ def numberToBinary(num):
   """Takes a base10 number and converts to a binary string with 8 bits"""
   binary = ""
   #Convert from decimal to binary
+  while num > 0:
+    binary = str(num % 2) + binary
+    num = num // 2
 
+  while len(binary) < 8:
+    binary = "0" + binary
 
   return binary
 
 def binaryToNumber(bin):
   """Takes a string binary value and converts it to a base10 integer."""
   decimal = 0
+  value = 1
+  while len(bin) > 0:
+    lastSpot = len(bin) - 1
+    lastDigit = bin[lastSpot]
+
+    if lastDigit == '1':
+      decimal = decimal + value
+
+    value = value * 2
+
+    bin = bin[0:lastSpot]
+
 
 
   return decimal
 
-def main():
-  #Ask user if they want to encode/decode
+def encoding(message):
   myImg = Image.open('pki.png')
-  myMsg = "This is a secret message I will hide in an image."
+  myMsg = message
   encode(myImg, myMsg)
   myImg.close()
 
-  """
+
+def decoding():
   yourImg = Image.open('secretImg.png')
   msg = decode(yourImg)
   print(msg)
-  """
+
+
+def main():
+  #Ask user if they want to encode/decode
+  
+  loop = ""
+  while loop == "":
+    encodeDecode = input("If you want to encode a message, type: e" + "\n" + "If you want to decode a message, type: d" + "\n" + "Enter choice here: ")
     
+    if encodeDecode == "e":
+      message = input("\n" + "Enter the message you would like to encode: ")
+      encoding(message)
+      print("\n" + "..." + "\n" + "Your message has been encoded" + "\n" + "..." + "\n")
+      encodeDecode = ""
+      loop ==""
+
+    if encodeDecode == "d":
+      print("\n" + "..." + "\n" + "Decoded message: " + "\n")
+      decoding()
+      print("..." + "\n")
+      encodeDecode = ""
+      loop == ""
+
+
 if __name__ == '__main__':
   main()
